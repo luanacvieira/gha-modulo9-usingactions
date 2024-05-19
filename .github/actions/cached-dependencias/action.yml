@@ -8,12 +8,12 @@ inputs:
 outputs:
   used-cache: # Whether the cache was used or not
     description: 'Whether the cache was used or not'
-    value: ${{ steps.install }}
+    value: ${{ steps.install.outputs.cache }}
 runs:
   using: 'composite'
   steps:
     - name: Cache dependencies
-      if: ${{ inputs.caching == 'true' }}
+      if: inputs.caching == 'true'
       id: cache
       uses: actions/cache@v3
       with:
@@ -21,7 +21,7 @@ runs:
         key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
     - name: Install dependencies
       id: install
-      if: steps.cache.outputs.cache-hit != 'true' || ${{ inputs.caching != 'true' }}
+      if: steps.cache.outputs.cache-hit != 'true' || inputs.caching != 'true'
       run: |
         npm ci
         echo "::set-output name=cache:: '${{ inputs.caching }}'"
