@@ -8,6 +8,9 @@ inputs:
     description: 'The region of the S3 bucket to deploy to.'
     required: false
     default: 'us-east-2'
+  dist-folder:
+    description: 'The folder containing the static website to deploy.'
+    required: true
  runs:
   using: 'node16'
   main: 'main.js'
