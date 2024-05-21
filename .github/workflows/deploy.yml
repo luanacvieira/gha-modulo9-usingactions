@@ -4,6 +4,7 @@ on:
     branches:
       - main
       - master
+      # comentario
 jobs:
   lint:
     runs-on: ubuntu-latest
@@ -12,11 +13,11 @@ jobs:
         uses: actions/checkout@v3
       - name: Load & cache dependencies
         id: cache-deps
-        uses: ./.github/actions/cached-dependencias
+        uses: ./.github/actions/cached-deps
         with:
           caching: 'false'
       - name: Output information
-        run: echo "Cached used? ${{ steps.cache-deps.outputs.used-cache}} "
+        run: echo "Cache used? ${{ steps.cache-deps.outputs.used-cache }}"
       - name: Lint code
         run: npm run lint
   test:
@@ -25,7 +26,7 @@ jobs:
       - name: Get code
         uses: actions/checkout@v3
       - name: Load & cache dependencies
-        uses: ./.github/actions/cached-dependencias
+        uses: ./.github/actions/cached-deps
       - name: Test code
         id: run-tests
         run: npm run test
@@ -42,7 +43,7 @@ jobs:
       - name: Get code
         uses: actions/checkout@v3
       - name: Load & cache dependencies
-        uses: ./.github/actions/cached-dependencias
+        uses: ./.github/actions/cached-deps
       - name: Build website
         run: npm run build
       - name: Upload artifacts
@@ -64,12 +65,15 @@ jobs:
       - name: Output contents
         run: ls
       - name: Deploy site
+        id: deploy
         uses: ./.github/actions/deploy-s3-javascript
         env:
-          AWS_BUCKET_NAME: gha-custom-action-hosting-lua
-          AWS_ACCESS_KEY_ID: ${{secrets.AWS_ACCESS_KEY_ID}}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         with:
-          bucket-name: gha-custom-action-hosting-lua
+          bucket: gha-custom-action-hosting-lua
           dist-folder: ./dist
           bucket-region: us-east-2
+      - name: Output information
+        run: |
+          echo "Live URL: ${{ steps.deploy.outputs.website-url }}"
