@@ -13,7 +13,7 @@ inputs:
     required: true
 outputs:
   website-url:
-    description: 'The URL of the deployed website.'
+    description: 'JAVASCRIPT ACTION - The URL of the deployed website.'
 runs:
   using: 'node16'
   main: 'main.js'

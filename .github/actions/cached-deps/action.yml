@@ -2,12 +2,12 @@ name: 'Get & Cache Dependencies'
 description: 'Get the dependencies (via npm) and cache them.'
 inputs:
   caching:
-    description: 'Whether to cache dependencies or not.'
+    description: 'COMPOSITE CACHE DESCRIPTION - Whether to cache dependencies or not.'
     required: false
     default: 'true'
 outputs:
   used-cache:
-    description: 'Whether the cache was used.'
+    description: 'COMPOSITE CACHE OUTPUT DESCRITION - Whether the cache was used.'
     value: ${{ steps.install.outputs.cache }}
 runs:
   using: 'composite'
