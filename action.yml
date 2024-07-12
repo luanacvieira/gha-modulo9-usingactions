@@ -12,3 +12,5 @@ outputs:
 runs:
   using: 'node12'
   main: 'index.js'
+  icon: 'check-circle'
+  color: 'blue'
